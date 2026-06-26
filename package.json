@@ -1,0 +1,12 @@
+{
+  "name": "caccia-pesca-landing",
+  "version": "1.0.0",
+  "description": "Scrollytelling Landing Page for Hunting and Fishing Store",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx -y browser-sync start --server --files \"*.html, *.css, *.js, assets/*\" --port 3000"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

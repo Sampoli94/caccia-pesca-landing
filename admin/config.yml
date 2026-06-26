@@ -1,0 +1,37 @@
+backend:
+  name: github
+  repo: sampoli94/caccia-pesca-landing
+  branch: main
+
+# Abilita il backend locale per testare il CMS su http://localhost:3000 o con il proxy locale di decap-cms-proxy-server
+local_backend: true
+
+media_folder: "assets"
+public_folder: "assets"
+
+collections:
+  - name: "store_data"
+    label: "Catalogo & Prodotti"
+    files:
+      - file: "assets/products.json"
+        label: "Catalogo Prodotti"
+        name: "products_catalog"
+        fields:
+          - name: "products"
+            label: "Lista dei Prodotti"
+            label_singular: "Prodotto"
+            widget: "list"
+            summary: '{{fields.name}} (ID: {{fields.id}}) - € {{fields.price}}'
+            fields:
+              - { label: "ID Prodotto (Numero intero unico, es. 5)", name: "id", widget: "number", value_type: "int" }
+              - { label: "Nome Prodotto", name: "name", widget: "string" }
+              - { label: "Prezzo (EUR)", name: "price", widget: "number", value_type: "float" }
+              - { label: "Marca / Produttore", name: "brand", widget: "string" }
+              - { label: "Categoria", name: "category", widget: "select", options: [{label: "Mulinelli", value: "mulinelli"}, {label: "Canne da Pesca", value: "canne"}, {label: "Monofili & Fili", value: "fili"}, {label: "Metal Jig & Artificiali", value: "jig"}] }
+              - { label: "Immagine (Seleziona file)", name: "img", widget: "image" }
+              - { label: "Valutazione (Stelle da 1.0 a 5.0)", name: "rating", widget: "number", value_type: "float", min: 1, max: 5 }
+              - { label: "Numero Recensioni", name: "reviews", widget: "number", value_type: "int" }
+              - { label: "Badge Evidenziatore (es. Novità, Offerta, Best Seller)", name: "badge", widget: "string", required: false }
+              - { label: "Caratteristiche Principali (Aggiungi max 3 brevi specifiche)", name: "specs", widget: "list" }
+              - { label: "Descrizione Dettagliata", name: "desc", widget: "text" }
+              - { label: "Link Stripe Pagamento (URL Stripe Payment Link per acquisto diretto)", name: "stripeUrl", widget: "string" }

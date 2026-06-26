@@ -1,0 +1,60 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Starlight Ricaricabile",
+      "price": 12.50,
+      "brand": "Trabucco",
+      "category": "fili",
+      "img": "assets/starlight.jpeg",
+      "rating": 5.0,
+      "reviews": 12,
+      "badge": "Novità",
+      "specs": ["LED USB", "Alta Visib.", "Auton. 8h"],
+      "desc": "Starlight ricaricabile a LED ad alta visibilità con spina USB incorporata. Perfetto per le sessioni di pesca notturna. Durevole, ecologico e resistente all'acqua.",
+      "stripeUrl": "https://buy.stripe.com/mock-starlight"
+    },
+    {
+      "id": 2,
+      "name": "Monofilo",
+      "price": 14.90,
+      "brand": "Trabucco",
+      "category": "fili",
+      "img": "assets/monofilo.jpeg",
+      "rating": 5.0,
+      "reviews": 8,
+      "badge": "Best Seller",
+      "specs": ["Nylon Giapp.", "Fluorocarbon", "Bobina 150m"],
+      "desc": "Monofilo in nylon di fabbricazione giapponese con rivestimento in fluorocarbon. Invisibile in acqua, ad altissima resistenza al nodo e all'abrasione.",
+      "stripeUrl": "https://buy.stripe.com/mock-monofilo"
+    },
+    {
+      "id": 3,
+      "name": "Mulinello",
+      "price": 89.00,
+      "brand": "Shimano",
+      "category": "mulinelli",
+      "img": "assets/mulinello.jpeg",
+      "rating": 5.0,
+      "reviews": 24,
+      "badge": "Top Quality",
+      "specs": ["Friz. Microm.", "9+1 Cuscin.", "Max Drag 12k"],
+      "desc": "Mulinello da pesca ad alte prestazioni con frizione micrometrica a dischi multipli, 9+1 cuscinetti a sfera schermati in acciaio inox e corpo sigillato anti-corrosione.",
+      "stripeUrl": "https://buy.stripe.com/mock-mulinello"
+    },
+    {
+      "id": 4,
+      "name": "Jig 15gr",
+      "price": 7.50,
+      "brand": "BKK",
+      "category": "jig",
+      "img": "assets/jig.jpeg",
+      "rating": 4.5,
+      "reviews": 19,
+      "badge": "Offerta",
+      "specs": ["Olograf. 3D", "Ancorette BKK", "Lancio Long"],
+      "desc": "Metal Jig da 15 grammi con finitura olografica 3D riflettente ad alta attrazione. Montato con ancorette originali BKK ad alta penetrazione.",
+      "stripeUrl": "https://buy.stripe.com/mock-jig"
+    }
+  ]
+}

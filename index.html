@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gioia Caccia & Pesca di Daniel Bevacqua | Negozio E-commerce Online</title>
+  <meta name="description" content="Gioia Caccia & Pesca di Daniel Bevacqua - Negozio online specializzato in articoli da pesca, caccia, canne, mulinelli ed esche artificiali delle migliori marche. Consegna rapida 24/48h.">
+  <link rel="stylesheet" href="styles.css">
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- ========================================== -->
+  <!-- 1. TOP UTILITY BAR                         -->
+  <!-- ========================================== -->
+  <div class="top-bar">
+    <div class="container top-bar-container">
+      <div class="top-contacts">
+        <a href="tel:+393472565697" id="top-phone"><i class="fa-solid fa-phone"></i> +39 347 2565697</a>
+        <a href="mailto:gioiacacciaepesca@gmail.com" id="top-email"><i class="fa-solid fa-envelope"></i> gioiacacciaepesca@gmail.com</a>
+      </div>
+      <div class="top-promo-ticker" id="promo-ticker">
+        <span>Spedizione GRATUITA per ordini superiori a € 79!</span>
+      </div>
+      <div class="top-selectors">
+        <div class="selector-dropdown" id="lang-selector">
+          <span>IT <i class="fa-solid fa-chevron-down"></i></span>
+          <div class="selector-options">
+            <a href="#" class="active">Italiano (IT)</a>
+            <a href="#">English (EN)</a>
+          </div>
+        </div>
+        <div class="selector-dropdown" id="curr-selector">
+          <span>EUR (€) <i class="fa-solid fa-chevron-down"></i></span>
+          <div class="selector-options">
+            <a href="#" class="active">EUR (€)</a>
+            <a href="#">USD ($)</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- 2. MAIN HEADER & NAVBAR                    -->
+  <!-- ========================================== -->
+  <header class="main-header">
+    <div class="container header-container">
+      
+      <!-- Mobile menu trigger -->
+      <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Apri menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+
+      <!-- Logo -->
+      <a href="#" class="logo" id="logo-main">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <path d="M50 15 L80 65 L60 65 L70 85 L30 85 L40 65 L20 65 Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+          <path d="M50 45 C55 55, 55 60, 50 65 C45 70, 40 68, 40 62" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+          <circle cx="50" cy="40" r="3" fill="currentColor"/>
+        </svg>
+        <span>GIOIA <span class="text-orange">CACCIA & PESCA</span></span>
+      </a>
+
+      <!-- Search Bar -->
+      <div class="header-search">
+        <form class="search-form" id="search-form" onsubmit="event.preventDefault();">
+          <input type="text" id="search-input" placeholder="Cerca attrezzatura, mulinelli, esche..." autocomplete="off">
+          <button type="submit" id="search-submit" aria-label="Cerca">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+        </form>
+        <!-- Dynamic dropdown search hints -->
+        <div class="search-suggestions" id="search-suggestions">
+          <div class="suggestions-list" id="suggestions-list">
+            <!-- Filled dynamically -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="header-actions">
+        <!-- Account -->
+        <div class="header-action-item user-menu-container">
+          <a href="#" class="header-action-btn" id="btn-account" aria-label="Accedi o Registrati">
+            <i class="fa-regular fa-user"></i>
+            <span class="btn-text">Accedi</span>
+          </a>
+          <div class="user-dropdown">
+            <div class="user-dropdown-header">
+              <h4>Benvenuto nel negozio!</h4>
+              <p>Accedi al tuo account per gestire ordini e spedizioni.</p>
+            </div>
+            <div class="user-dropdown-actions">
+              <a href="#" class="btn-login-dropdown">Accedi</a>
+              <a href="#" class="btn-register-dropdown">Registrati</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Wishlist -->
+        <a href="#" class="header-action-btn" id="btn-wishlist" aria-label="Preferiti">
+          <span class="badge-wrapper">
+            <i class="fa-regular fa-heart"></i>
+            <span class="badge" id="wishlist-count">0</span>
+          </span>
+          <span class="btn-text">Preferiti</span>
+        </a>
+
+        <!-- Cart (Hidden since we use Stripe direct links) -->
+
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================== -->
+  <!-- 3. CATEGORY & BRAND NAVIGATION             -->
+  <!-- ========================================== -->
+  <nav class="category-nav" id="category-nav">
+    <div class="container nav-container">
+      <ul class="nav-menu">
+        <li class="nav-item home-link">
+          <a href="#" class="nav-link active"><i class="fa-solid fa-house"></i> Home</a>
+        </li>
+        <li class="nav-item has-dropdown">
+          <a href="#products-section" class="nav-link">Categorie <i class="fa-solid fa-chevron-down"></i></a>
+          <div class="megamenu">
+            <div class="megamenu-grid">
+              <div class="megamenu-col">
+                <h3><i class="fa-solid fa-fish"></i> Articoli Pesca</h3>
+                <ul>
+                  <li><a href="#products-section" onclick="filterCategory('mulinelli')">Mulinelli</a></li>
+                  <li><a href="#products-section" onclick="filterCategory('canne')">Canne da Pesca</a></li>
+                  <li><a href="#products-section" onclick="filterCategory('fili')">Monofili & Fluorocarbon</a></li>
+                  <li><a href="#products-section" onclick="filterCategory('jig')">Metal Jig & Artificiali</a></li>
+                  <li><a href="#products-section" onclick="filterCategory('all')">Tutta l'Attrezzatura</a></li>
+                </ul>
+              </div>
+              <div class="megamenu-col">
+                <h3><i class="fa-solid fa-person-hunting"></i> Caccia & Outdoor</h3>
+                <ul>
+                  <li><a href="#editorial-section">Abbigliamento Tecnico</a></li>
+                  <li><a href="#editorial-section">Zaini & Buffetteria</a></li>
+                  <li><a href="#editorial-section">Accessori da Appostamento</a></li>
+                  <li><a href="#editorial-section">Lampade & Starlight</a></li>
+                </ul>
+              </div>
+              <div class="megamenu-col banner-col">
+                <div class="megamenu-banner">
+                  <img src="assets/product_lure.jpg" alt="Esche da Pesca">
+                  <div class="banner-overlay">
+                    <h4>Prepara la tua stagione</h4>
+                    <span class="btn-banner-link">Vedi Offerte</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li class="nav-item has-dropdown">
+          <a href="#" class="nav-link">Marche <i class="fa-solid fa-chevron-down"></i></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Shimano</a></li>
+            <li><a href="#">Daiwa</a></li>
+            <li><a href="#">Trabucco</a></li>
+            <li><a href="#">Tubertini</a></li>
+            <li><a href="#">BKK Hooks</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a href="#products-section" class="nav-link text-orange-bold"><i class="fa-solid fa-fire"></i> Offerte Speciali</a>
+        </li>
+        <li class="nav-item">
+          <a href="#editorial-section" class="nav-link">Chi Siamo</a>
+        </li>
+        <li class="nav-item">
+          <a href="#footer-contacts" class="nav-link">Contatti</a>
+        </li>
+      </ul>
+      <div class="nav-promo-text">
+        <span><i class="fa-solid fa-truck-fast"></i> Consegna rapida in 24/48h</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile navigation drawer -->
+  <div class="mobile-drawer" id="mobile-drawer">
+    <div class="drawer-header">
+      <div class="drawer-logo">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:28px; height:28px; fill:var(--color-orange)">
+          <path d="M50 15 L80 65 L60 65 L70 85 L30 85 L40 65 L20 65 Z" fill="none" stroke="currentColor" stroke-width="4"/>
+          <path d="M50 45 C55 55, 55 60, 50 65 C45 70, 40 68, 40 62" fill="none" stroke="currentColor" stroke-width="4"/>
+          <circle cx="50" cy="40" r="3" fill="currentColor"/>
+        </svg>
+        <span>GIOIA CACCIA & PESCA</span>
+      </div>
+      <button class="drawer-close" id="drawer-close" aria-label="Chiudi menu">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+    <div class="drawer-search">
+      <form class="drawer-search-form" onsubmit="event.preventDefault(); filterFromDrawer();">
+        <input type="text" id="drawer-search-input" placeholder="Cerca nel catalogo...">
+        <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+      </form>
+    </div>
+    <div class="drawer-content">
+      <ul class="drawer-menu">
+        <li><a href="#" class="drawer-link active" onclick="closeDrawer()"><i class="fa-solid fa-house"></i> Home</a></li>
+        <li class="drawer-has-submenu">
+          <div class="drawer-submenu-header">
+            <span><i class="fa-solid fa-fish"></i> Articoli Pesca</span>
+            <i class="fa-solid fa-plus submenu-toggle"></i>
+          </div>
+          <ul class="drawer-submenu">
+            <li><a href="#products-section" onclick="filterCategory('mulinelli'); closeDrawer()">Mulinelli</a></li>
+            <li><a href="#products-section" onclick="filterCategory('canne'); closeDrawer()">Canne da Pesca</a></li>
+            <li><a href="#products-section" onclick="filterCategory('fili'); closeDrawer()">Monofili & Fluorocarbon</a></li>
+            <li><a href="#products-section" onclick="filterCategory('jig'); closeDrawer()">Metal Jig & Artificiali</a></li>
+          </ul>
+        </li>
+        <li class="drawer-has-submenu">
+          <div class="drawer-submenu-header">
+            <span><i class="fa-solid fa-person-hunting"></i> Caccia & Outdoor</span>
+            <i class="fa-solid fa-plus submenu-toggle"></i>
+          </div>
+          <ul class="drawer-submenu">
+            <li><a href="#editorial-section" onclick="closeDrawer()">Abbigliamento Tecnico</a></li>
+            <li><a href="#editorial-section" onclick="closeDrawer()">Zaini & Buffetteria</a></li>
+            <li><a href="#editorial-section" onclick="closeDrawer()">Accessori da Appostamento</a></li>
+          </ul>
+        </li>
+        <li><a href="#products-section" class="drawer-link text-orange" onclick="filterCategory('all'); closeDrawer()"><i class="fa-solid fa-fire"></i> Offerte Speciali</a></li>
+        <li><a href="#editorial-section" class="drawer-link" onclick="closeDrawer()"><i class="fa-solid fa-info-circle"></i> Chi Siamo</a></li>
+        <li><a href="#footer-contacts" class="drawer-link" onclick="closeDrawer()"><i class="fa-solid fa-envelope"></i> Contatti</a></li>
+      </ul>
+      <div class="drawer-info">
+        <p><i class="fa-solid fa-phone"></i> Assistenza: +39 347 2565697</p>
+        <p><i class="fa-solid fa-truck"></i> Spedizioni rapide in 24/48h</p>
+      </div>
+    </div>
+  </div>
+  <div class="drawer-overlay-bg" id="drawer-overlay-bg"></div>
+
+  <!-- ========================================== -->
+  <!-- 4. HERO PROMOTIONAL CAROUSEL               -->
+  <!-- ========================================== -->
+  <section class="hero-carousel-section" id="hero-carousel-section">
+    <div class="carousel-container" id="carousel-container">
+      
+      <!-- Slide 1: General Promo / Brand -->
+      <div class="carousel-slide active" style="background-image: linear-gradient(to right, rgba(11, 25, 44, 0.75), rgba(19, 46, 29, 0.45)), url('assets/hero_bg.jpg');">
+        <div class="container slide-content-wrapper">
+          <div class="slide-content">
+            <span class="slide-subtitle"><i class="fa-solid fa-compass"></i> Gioia Caccia & Pesca di Daniel Bevacqua</span>
+            <h2 class="slide-title">Equipaggiamento Tecnico per Professionisti</h2>
+            <p class="slide-desc">Dai migliori fiumi alpini al mare aperto. Canne in carbonio extra-light, mulinelli sigillati ed esche realistiche selezionate sul campo.</p>
+            <div class="slide-buttons">
+              <a href="#products-section" class="btn-primary-carousel">Esplora lo Shop</a>
+              <a href="#editorial-section" class="btn-secondary-carousel">La Nostra Storia</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 2: Fishing Lure / Jig -->
+      <div class="carousel-slide" style="background-image: linear-gradient(to right, rgba(11, 25, 44, 0.75), rgba(19, 46, 29, 0.45)), url('assets/product_lure.jpg');">
+        <div class="container slide-content-wrapper">
+          <div class="slide-content">
+            <span class="slide-subtitle"><i class="fa-solid fa-circle-radiation"></i> Novità in Catalogo</span>
+            <h2 class="slide-title">Metal Jig 15gr & Artificiali 3D</h2>
+            <p class="slide-desc">Lanci lunghissimi e olografie 3D ad alta rifrazione con ancorette BKK originali. Fai abboccare i predatori più sospettosi.</p>
+            <div class="slide-buttons">
+              <a href="#products-section" class="btn-primary-carousel" onclick="filterCategory('jig')">Scopri i Jig</a>
+              <a href="#products-section" class="btn-secondary-carousel">Vedi Tutti i Prodotti</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 3: Hunting / Outdoor Jacket -->
+      <div class="carousel-slide" style="background-image: linear-gradient(to right, rgba(11, 25, 44, 0.75), rgba(19, 46, 29, 0.45)), url('assets/product_jacket.jpg');">
+        <div class="container slide-content-wrapper">
+          <div class="slide-content">
+            <span class="slide-subtitle"><i class="fa-solid fa-person-rifle"></i> Caccia & Abbigliamento</span>
+            <h2 class="slide-title">Vivi la Natura nel Massimo Comfort</h2>
+            <p class="slide-desc">Giacche mimetiche ad alta traspirabilità, zaini modulari impermeabili ed abbigliamento silenzioso testato per resistere ad ogni clima.</p>
+            <div class="slide-buttons">
+              <a href="#editorial-section" class="btn-primary-carousel">Esplora Abbigliamento</a>
+              <a href="#products-section" class="btn-secondary-carousel">Acquista Ora</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Carousel Controls -->
+    <button class="carousel-arrow prev" id="carousel-prev" aria-label="Precedente">
+      <i class="fa-solid fa-chevron-left"></i>
+    </button>
+    <button class="carousel-arrow next" id="carousel-next" aria-label="Successiva">
+      <i class="fa-solid fa-chevron-right"></i>
+    </button>
+
+    <!-- Carousel Indicators -->
+    <div class="carousel-indicators" id="carousel-indicators">
+      <span class="indicator-dot active" data-slide="0"></span>
+      <span class="indicator-dot" data-slide="1"></span>
+      <span class="indicator-dot" data-slide="2"></span>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- 5. SHOP BENEFITS BAR                       -->
+  <!-- ========================================== -->
+  <section class="benefits-section">
+    <div class="container benefits-grid">
+      <div class="benefit-card">
+        <div class="benefit-icon">
+          <i class="fa-solid fa-truck-fast"></i>
+        </div>
+        <div class="benefit-info">
+          <h3>Spedizione Express</h3>
+          <p>Consegna in 24/48h in tutta Italia con corriere tracciato</p>
+        </div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">
+          <i class="fa-solid fa-user-shield"></i>
+        </div>
+        <div class="benefit-info">
+          <h3>Consulenza di Daniel</h3>
+          <p>Consigli tecnici pre e post-acquisto diretti dal titolare</p>
+        </div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">
+          <i class="fa-solid fa-credit-card"></i>
+        </div>
+        <div class="benefit-info">
+          <h3>Pagamenti Protetti</h3>
+          <p>Transazioni 100% sicure con carte, PayPal o bonifico</p>
+        </div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">
+          <i class="fa-solid fa-rotate-left"></i>
+        </div>
+        <div class="benefit-info">
+          <h3>Reso Facile 30 Giorni</h3>
+          <p>Acquista in totale tranquillità con il reso garantito</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- 6. CATEGORY PROMO BANNERS                  -->
+  <!-- ========================================== -->
+  <section class="promo-banners-section">
+    <div class="container promo-banners-grid">
+      
+      <!-- Banner 1: Fishing Rods -->
+      <div class="promo-banner-card reveal">
+        <div class="banner-image-wrapper">
+          <img src="assets/product_rod.jpg" alt="Canne e Mulinelli da Pesca">
+        </div>
+        <div class="banner-content">
+          <span class="banner-tag">Canne & Mulinelli</span>
+          <h2>L'eccellenza in pesca</h2>
+          <p>Canne in carbonio e frizioni micrometriche per catture senza paragoni.</p>
+          <a href="#products-section" class="banner-btn" onclick="filterCategory('mulinelli')">Scopri la linea <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+      </div>
+
+      <!-- Banner 2: Lures and accessories -->
+      <div class="promo-banner-card reveal">
+        <div class="banner-image-wrapper">
+          <img src="assets/monofilo.jpeg" alt="Fili ed esche da pesca">
+        </div>
+        <div class="banner-content">
+          <span class="banner-tag">Fili & Artificiali</span>
+          <h2>Esche & Monofili</h2>
+          <p>Bobine di nylon giapponese invisibile e jig metallici 15gr con ancorette BKK.</p>
+          <a href="#products-section" class="banner-btn" onclick="filterCategory('fili')">Esplora accessori <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+      </div>
+
+      <!-- Banner 3: Hunting and Clothing -->
+      <div class="promo-banner-card reveal">
+        <div class="banner-image-wrapper">
+          <img src="assets/product_backpack.jpg" alt="Abbigliamento Caccia e Outdoor">
+        </div>
+        <div class="banner-content">
+          <span class="banner-tag">Sezione Caccia</span>
+          <h2>Outdoor & Caccia</h2>
+          <p>Zaini tecnici, buffetteria ed abbigliamento mimetico silenzioso anti-odore.</p>
+          <a href="#editorial-section" class="banner-btn">Linea outdoor <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- 7. PRODUCTS CATALOG SECTION                -->
+  <!-- ========================================== -->
+  <section class="products-section" id="products-section">
+    <div class="container">
+      
+      <div class="section-intro">
+        <span class="section-subtitle">Il Nostro Catalogo Selezionato</span>
+        <h2 class="section-title">Prodotti Consigliati</h2>
+      </div>
+
+      <!-- Product Filtering Tabs -->
+      <div class="products-filter-tabs">
+        <button class="filter-tab-btn active" data-filter="all" onclick="setFilterTab(this)">Tutti i Prodotti</button>
+        <button class="filter-tab-btn" data-filter="mulinelli" onclick="setFilterTab(this)">Mulinelli</button>
+        <button class="filter-tab-btn" data-filter="canne" onclick="setFilterTab(this)">Canne da Pesca</button>
+        <button class="filter-tab-btn" data-filter="fili" onclick="setFilterTab(this)">Monofili</button>
+        <button class="filter-tab-btn" data-filter="jig" onclick="setFilterTab(this)">Metal Jig</button>
+      </div>
+
+      <!-- Search feedback line -->
+      <div class="search-status-bar" id="search-status-bar" style="display: none;">
+        <span class="status-text" id="search-status-text">Mostrando 4 prodotti</span>
+        <button class="clear-search-btn" onclick="clearSearchFilter()"><i class="fa-solid fa-xmark"></i> Rimuovi filtro ricerca</button>
+      </div>
+
+      <!-- Products Grid -->
+      <div class="products-grid" id="products-grid">
+        
+        <!-- Product 1: Starlight Ricaricabile -->
+        <div class="product-card-wrapper reveal" data-category="fili" data-title="starlight ricaricabile">
+          <div class="product-card" id="product-card-1">
+            <div class="product-img-wrapper">
+              <span class="product-badge pesca">Novità</span>
+              <img class="product-img" src="assets/starlight.jpeg" alt="Starlight Ricaricabile USB">
+              <div class="product-action-overlays">
+                <button class="btn-action-overlay add-to-wish" onclick="toggleWishlist(1, this)" aria-label="Aggiungi ai preferiti"><i class="fa-regular fa-heart"></i></button>
+                <button class="btn-action-overlay zoom-product" onclick="openProductQuickview(1)" aria-label="Anteprima rapida"><i class="fa-solid fa-eye"></i></button>
+              </div>
+            </div>
+            <div class="product-info">
+              <div class="product-brand">Trabucco</div>
+              <h3 class="product-title" onclick="openProductQuickview(1)">Starlight Ricaricabile</h3>
+              <div class="product-rating">
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <span class="rating-count">(12)</span>
+              </div>
+              <ul class="product-specs">
+                <li>LED USB</li>
+                <li>Alta Visib.</li>
+                <li>Auton. 8h</li>
+              </ul>
+              <div class="product-footer">
+                <div class="product-price">€ 12.50</div>
+                <a href="https://buy.stripe.com/mock-starlight" target="_blank" rel="noopener noreferrer" class="product-btn" id="btn-buy-starlight">Acquista <i class="fa-solid fa-credit-card"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 2: Monofilo -->
+        <div class="product-card-wrapper reveal" data-category="fili" data-title="monofilo">
+          <div class="product-card" id="product-card-2">
+            <div class="product-img-wrapper">
+              <span class="product-badge pesca">Best Seller</span>
+              <img class="product-img" src="assets/monofilo.jpeg" alt="Monofilo Alta Resistenza">
+              <div class="product-action-overlays">
+                <button class="btn-action-overlay add-to-wish" onclick="toggleWishlist(2, this)" aria-label="Aggiungi ai preferiti"><i class="fa-regular fa-heart"></i></button>
+                <button class="btn-action-overlay zoom-product" onclick="openProductQuickview(2)" aria-label="Anteprima rapida"><i class="fa-solid fa-eye"></i></button>
+              </div>
+            </div>
+            <div class="product-info">
+              <div class="product-brand">Trabucco</div>
+              <h3 class="product-title" onclick="openProductQuickview(2)">Monofilo</h3>
+              <div class="product-rating">
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <span class="rating-count">(8)</span>
+              </div>
+              <ul class="product-specs">
+                <li>Nylon Giapp.</li>
+                <li>Fluorocarbon</li>
+                <li>Bobina 150m</li>
+              </ul>
+              <div class="product-footer">
+                <div class="product-price">€ 14.90</div>
+                <a href="https://buy.stripe.com/mock-monofilo" target="_blank" rel="noopener noreferrer" class="product-btn" id="btn-buy-monofilo">Acquista <i class="fa-solid fa-credit-card"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 3: Mulinello -->
+        <div class="product-card-wrapper reveal" data-category="mulinelli" data-title="mulinello">
+          <div class="product-card" id="product-card-3">
+            <div class="product-img-wrapper">
+              <span class="product-badge pesca">Top Quality</span>
+              <img class="product-img" src="assets/mulinello.jpeg" alt="Mulinello professionale Gioia Pro">
+              <div class="product-action-overlays">
+                <button class="btn-action-overlay add-to-wish" onclick="toggleWishlist(3, this)" aria-label="Aggiungi ai preferiti"><i class="fa-regular fa-heart"></i></button>
+                <button class="btn-action-overlay zoom-product" onclick="openProductQuickview(3)" aria-label="Anteprima rapida"><i class="fa-solid fa-eye"></i></button>
+              </div>
+            </div>
+            <div class="product-info">
+              <div class="product-brand">Shimano</div>
+              <h3 class="product-title" onclick="openProductQuickview(3)">Mulinello</h3>
+              <div class="product-rating">
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <span class="rating-count">(24)</span>
+              </div>
+              <ul class="product-specs">
+                <li>Friz. Microm.</li>
+                <li>9+1 Cuscin.</li>
+                <li>Max Drag 12k</li>
+              </ul>
+              <div class="product-footer">
+                <div class="product-price">€ 89.00</div>
+                <a href="https://buy.stripe.com/mock-mulinello" target="_blank" rel="noopener noreferrer" class="product-btn" id="btn-buy-mulinello">Acquista <i class="fa-solid fa-credit-card"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 4: Jig 15gr -->
+        <div class="product-card-wrapper reveal" data-category="jig" data-title="jig 15gr">
+          <div class="product-card" id="product-card-4">
+            <div class="product-img-wrapper">
+              <span class="product-badge pesca">Offerta</span>
+              <img class="product-img" src="assets/jig.jpeg" alt="Metal Jig 15gr">
+              <div class="product-action-overlays">
+                <button class="btn-action-overlay add-to-wish" onclick="toggleWishlist(4, this)" aria-label="Aggiungi ai preferiti"><i class="fa-regular fa-heart"></i></button>
+                <button class="btn-action-overlay zoom-product" onclick="openProductQuickview(4)" aria-label="Anteprima rapida"><i class="fa-solid fa-eye"></i></button>
+              </div>
+            </div>
+            <div class="product-info">
+              <div class="product-brand">BKK</div>
+              <h3 class="product-title" onclick="openProductQuickview(4)">Jig 15gr</h3>
+              <div class="product-rating">
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star-half-stroke"></i>
+                <span class="rating-count">(19)</span>
+              </div>
+              <ul class="product-specs">
+                <li>Olograf. 3D</li>
+                <li>Ancorette BKK</li>
+                <li>Lancio Long</li>
+              </ul>
+              <div class="product-footer">
+                <div class="product-price">€ 7.50</div>
+                <a href="https://buy.stripe.com/mock-jig" target="_blank" rel="noopener noreferrer" class="product-btn" id="btn-buy-jig">Acquista <i class="fa-solid fa-credit-card"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- No products match search -->
+      <div class="no-products-found" id="no-products-found" style="display: none;">
+        <i class="fa-solid fa-circle-question"></i>
+        <h3>Nessun prodotto corrisponde alla tua ricerca</h3>
+        <p>Prova a controllare l'ortografia o usa termini diversi.</p>
+        <button class="btn-primary" onclick="clearSearchFilter()">Mostra Tutti i Prodotti</button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- 8. CUSTOMER TESTIMONIALS                   -->
+  <!-- ========================================== -->
+  <section class="testimonials-section">
+    <div class="container">
+      <div class="section-intro">
+        <span class="section-subtitle">Dicono di noi</span>
+        <h2 class="section-title">Esperienze dei Nostri Clienti</h2>
+      </div>
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <div class="testimonial-stars">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+          </div>
+          <h3>Spedizione rapidissima!</h3>
+          <p>"Ordinato il Mulinello e la lenza martedì mattina, mercoledì a mezzogiorno era già tutto a casa mia a Trento. Ottimo imballaggio e prodotti di primissima qualità!"</p>
+          <div class="testimonial-author">
+            <span class="author-name">Marco R.</span>
+            <span class="author-location"><i class="fa-solid fa-circle-check"></i> Acquirente Verificato</span>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-stars">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+          </div>
+          <h3>Consigli professionali eccellenti</h3>
+          <p>"Daniel è super disponibile. L'ho chiamato prima di acquistare e mi ha guidato nella scelta dei Jig 15gr adatti per le trote e i cavedani della mia zona. Consigliatissimo!"</p>
+          <div class="testimonial-author">
+            <span class="author-name">Luca T.</span>
+            <span class="author-location"><i class="fa-solid fa-circle-check"></i> Acquirente Verificato</span>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-stars">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+          </div>
+          <h3>Starlight USB top!</h3>
+          <p>"Il monofilo e gli starlight ricaricabili sono perfetti. Finalmente ho finito di comprare gli starlight chimici che inquinano e durano poco. Questo dura oltre 8 ore."</p>
+          <div class="testimonial-author">
+            <span class="author-name">Samuele D.</span>
+            <span class="author-location"><i class="fa-solid fa-circle-check"></i> Acquirente Verificato</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- 9. EDITORIAL / CHI SIAMO                   -->
+  <!-- ========================================== -->
+  <section class="editorial-section" id="editorial-section">
+    <div class="container">
+      <div class="editorial-grid">
+        
+        <div class="editorial-card-wrapper reveal">
+          <div class="editorial-card" id="editorial-left">
+            <span class="editorial-tag"><i class="fa-solid fa-trophy"></i> Passione per l'Avventura</span>
+            <h2 class="editorial-title">Pura passione per l'avventura ed il rispetto della natura</h2>
+            <p class="editorial-text">
+              Gioia Caccia e Pesca di Daniel Bevacqua nasce con l'unico obiettivo di fornire equipaggiamento tecnico senza compromessi. Testiamo ogni singolo prodotto sul campo prima di proporlo ai nostri clienti, per garantire che resistano ad ogni battuta di pesca e caccia.
+            </p>
+            <div class="editorial-highlights">
+              <div class="highlight-item">
+                <h4 id="highlight-location"><i class="fa-solid fa-location-dot"></i> Gioia Tauro</h4>
+                <p>Vieni a trovarci in negozio</p>
+              </div>
+              <div class="highlight-item">
+                <h4 id="highlight-tested">100%</h4>
+                <p>Articoli provati e approvati</p>
+              </div>
+            </div>
+            <a href="#products-section" class="btn-primary" id="btn-editorial-shop">Visita lo Shop</a>
+          </div>
+        </div>
+        
+        <div class="editorial-card-wrapper reveal">
+          <div class="editorial-card" id="editorial-right">
+            <div class="editorial-image-container">
+              <img src="assets/hero_bg.jpg" alt="Gioia Caccia e Pesca Experience">
+              <div class="editorial-badge">
+                <i class="fa-solid fa-medal"></i>
+                <span>Daniel Bevacqua Brand</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- 9.B INSTAGRAM & FACEBOOK SOCIAL FEED       -->
+  <!-- ========================================== -->
+  <section class="social-feed-section">
+    <div class="container">
+      <div class="section-intro">
+        <span class="section-subtitle"><i class="fa-brands fa-instagram"></i> Seguici sui Social</span>
+        <h2 class="section-title">@gioia_caccia_e_pesca</h2>
+      </div>
+      <div class="social-grid">
+        <div class="social-card reveal">
+          <img src="assets/product_rod.jpg" alt="Pesca in riva al fiume - Instagram Gioia Caccia e Pesca">
+          <div class="social-overlay">
+            <div class="social-stats">
+              <span><i class="fa-solid fa-heart"></i> 142</span>
+              <span><i class="fa-solid fa-comment"></i> 18</span>
+            </div>
+          </div>
+        </div>
+        <div class="social-card reveal">
+          <img src="assets/product_jacket.jpg" alt="Abbigliamento Tecnico Caccia - Instagram Gioia Caccia e Pesca">
+          <div class="social-overlay">
+            <div class="social-stats">
+              <span><i class="fa-solid fa-heart"></i> 98</span>
+              <span><i class="fa-solid fa-comment"></i> 7</span>
+            </div>
+          </div>
+        </div>
+        <div class="social-card reveal">
+          <img src="assets/product_lure.jpg" alt="Esche artificiali in silicone - Instagram Gioia Caccia e Pesca">
+          <div class="social-overlay">
+            <div class="social-stats">
+              <span><i class="fa-solid fa-heart"></i> 215</span>
+              <span><i class="fa-solid fa-comment"></i> 32</span>
+            </div>
+          </div>
+        </div>
+        <div class="social-card reveal">
+          <img src="assets/product_backpack.jpg" alt="Equipaggiamento zaini e accessori - Instagram Gioia Caccia e Pesca">
+          <div class="social-overlay">
+            <div class="social-stats">
+              <span><i class="fa-solid fa-heart"></i> 167</span>
+              <span><i class="fa-solid fa-comment"></i> 22</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="social-actions">
+        <a href="https://instagram.com/gioia_caccia_e_pesca" target="_blank" rel="noopener noreferrer" class="btn-social instagram"><i class="fa-brands fa-instagram"></i> Seguici su Instagram</a>
+        <a href="https://facebook.com/gioia_caccia_e_pesca" target="_blank" rel="noopener noreferrer" class="btn-social facebook"><i class="fa-brands fa-facebook-f"></i> Seguici su Facebook</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- 9.C DOVE SIAMO & MAPPA                     -->
+  <!-- ========================================== -->
+  <section class="map-section" id="store-location">
+    <div class="container map-grid">
+      <div class="map-info-card reveal">
+        <span class="section-subtitle"><i class="fa-solid fa-store"></i> Il Negozio Reale</span>
+        <h2 class="map-info-title">Vieni a trovarci</h2>
+        <p class="map-info-text">Il nostro punto vendita fisico si trova a Gioia Tauro. Passa a trovarci per ricevere consigli dal vivo da Daniel Bevacqua e toccare con mano la qualità del nostro assortimento.</p>
+        <ul class="map-contact-details">
+          <li>
+            <i class="fa-solid fa-location-dot"></i>
+            <div>
+              <strong>Indirizzo:</strong>
+              <span><a href="https://www.google.com/maps/search/?api=1&query=38.426167,15.904583" target="_blank" rel="noopener noreferrer" class="map-address-link">Via Nazionale 18, 393<br>Gioia Tauro (RC) - 89013</a></span>
+            </div>
+          </li>
+          <li>
+            <i class="fa-solid fa-envelope"></i>
+            <div>
+              <strong>Email:</strong>
+              <span>gioiacacciaepesca@gmail.com</span>
+            </div>
+          </li>
+          <li>
+            <i class="fa-solid fa-phone"></i>
+            <div>
+              <strong>Telefono:</strong>
+              <span><a href="tel:+393472565697" class="map-phone-link">+39 347 2565697</a></span>
+            </div>
+          </li>
+          <li>
+            <i class="fa-solid fa-clock"></i>
+            <div>
+              <strong>Orari d'apertura:</strong>
+              <span>Lun - Sab: 9:00 - 12:30 / 15:30 - 19:30</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="map-iframe-container reveal">
+        <iframe src="https://maps.google.com/maps?q=38.426167,15.904583&t=&z=17&ie=UTF8&iwloc=&output=embed" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Google Maps - Gioia Caccia & Pesca"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- 10. PRODUCT QUICKVIEW MODAL                -->
+  <!-- ========================================== -->
+  <div class="quickview-modal" id="quickview-modal">
+    <div class="quickview-dialog">
+      <button class="quickview-close" onclick="closeProductQuickview()" aria-label="Chiudi anteprima"><i class="fa-solid fa-xmark"></i></button>
+      <div class="quickview-content" id="quickview-content">
+        <!-- Filled dynamically by JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- 11. TOAST NOTIFICATIONS                    -->
+  <!-- ========================================== -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- ========================================== -->
+  <!-- 12. FOOTER                                 -->
+  <!-- ========================================== -->
+  <footer>
+    <div class="container footer-container">
+      <div class="footer-grid">
+        
+        <!-- Store info column -->
+        <div class="footer-col footer-info">
+          <div class="logo">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:28px; height:28px; fill:var(--color-orange)">
+              <path d="M50 15 L80 65 L60 65 L70 85 L30 85 L40 65 L20 65 Z" fill="none" stroke="currentColor" stroke-width="4"/>
+              <path d="M50 45 C55 55, 55 60, 50 65 C45 70, 40 68, 40 62" fill="none" stroke="currentColor" stroke-width="4"/>
+              <circle cx="50" cy="40" r="3" fill="currentColor"/>
+            </svg>
+            <span>GIOIA <span class="text-orange">CACCIA & PESCA</span></span>
+          </div>
+          <p class="footer-desc">La tua destinazione di fiducia per l'attrezzatura e l'abbigliamento outdoor, guidata dall'esperienza di Daniel Bevacqua. Domina gli elementi, vivi l'avventura.</p>
+          <div class="payment-methods">
+            <span class="payment-title">Pagamenti Accettati:</span>
+            <div class="payment-icons">
+              <i class="fa-brands fa-cc-visa" title="Visa"></i>
+              <i class="fa-brands fa-cc-mastercard" title="Mastercard"></i>
+              <i class="fa-brands fa-cc-paypal" title="PayPal"></i>
+              <i class="fa-solid fa-money-bill-transfer" title="Bonifico Bancario"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Links column -->
+        <div class="footer-col">
+          <h3 class="footer-title">Navigazione</h3>
+          <ul class="footer-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#products-section" onclick="filterCategory('all')">Prodotti in Evidenza</a></li>
+            <li><a href="#editorial-section">Chi Siamo</a></li>
+            <li><a href="#products-section" onclick="filterCategory('mulinelli')">Mulinelli</a></li>
+            <li><a href="#products-section" onclick="filterCategory('jig')">Metal Jig ed Esche</a></li>
+          </ul>
+        </div>
+
+        <!-- Service & Contacts -->
+        <div class="footer-col" id="footer-contacts">
+          <h3 class="footer-title">Assistenza & Contatti</h3>
+          <ul class="footer-links contact-info-list">
+            <li><a href="mailto:gioiacacciaepesca@gmail.com"><i class="fa-solid fa-envelope"></i> gioiacacciaepesca@gmail.com</a></li>
+            <li><a href="tel:+393472565697"><i class="fa-solid fa-phone"></i> Tel: +39 347 2565697</a></li>
+            <li><a href="https://www.google.com/maps/search/?api=1&query=38.426167,15.904583" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-map-location-dot"></i> Via Nazionale 18, 393, Gioia Tauro (RC)</a></li>
+            <li><span><i class="fa-solid fa-clock"></i> Lun - Sab: 9:00-12:30 / 15:30-19:30</span></li>
+          </ul>
+        </div>
+
+        <!-- Newsletter column -->
+        <div class="footer-col">
+          <h3 class="footer-title">Rimani Aggiornato</h3>
+          <p class="newsletter-text">Iscriviti alla nostra newsletter per ricevere offerte speciali, consigli tecnici e novità sul mondo della caccia e della pesca.</p>
+          <form class="newsletter-form" id="newsletter-form" onsubmit="event.preventDefault(); handleNewsletter(this);">
+            <input type="email" placeholder="Il tuo indirizzo email" required id="newsletter-email">
+            <button type="submit" id="newsletter-submit">Iscriviti</button>
+          </form>
+          <div class="footer-socials">
+            <a href="https://facebook.com/gioia_caccia_e_pesca" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="https://instagram.com/gioia_caccia_e_pesca" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Footer Bottom -->
+      <div class="footer-bottom">
+        <p>&copy; 2026 Gioia Caccia & Pesca di Daniel Bevacqua. Tutti i diritti riservati. P.IVA 01234567890 | Gioia Tauro (RC)</p>
+      </div>
+
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
