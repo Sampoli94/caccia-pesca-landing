@@ -1,14 +1,1035 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gestione Catalogo | Gioia Caccia & Pesca</title>
-    <!-- Include Netlify Identity widget (optional, but good to have as fallback) -->
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-  </head>
-  <body>
-    <!-- Decap CMS Core App -->
-    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-  </body>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pannello di Controllo | Gioia Caccia & Pesca</title>
+  <!-- FontAwesome Icons & Google Fonts -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-dark: #070b12;
+      --bg-card: #0e1622;
+      --bg-border: #1d2b3e;
+      --color-green: #2ecc71;
+      --color-orange: #ff6600;
+      --color-orange-hover: #e05a00;
+      --color-text-primary: #f8fafc;
+      --color-text-secondary: #94a3b8;
+      --font-heading: 'Outfit', 'Inter', sans-serif;
+      --font-body: 'Inter', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--color-text-primary);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* ========================================== */
+    /* 1. LOGIN GATE LAYOUT                       */
+    /* ========================================== */
+    .login-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+      background: radial-gradient(circle at top right, rgba(29, 43, 62, 0.4), var(--bg-dark));
+    }
+
+    .login-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--bg-border);
+      border-radius: 16px;
+      padding: 40px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      animation: fadeInUp 0.5s ease-out;
+    }
+
+    .login-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-family: var(--font-heading);
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--color-text-primary);
+      margin-bottom: 30px;
+      text-transform: uppercase;
+    }
+
+    .login-logo svg {
+      width: 32px;
+      height: 32px;
+      fill: var(--color-orange);
+    }
+
+    .login-title {
+      font-family: var(--font-heading);
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+
+    .login-subtitle {
+      color: var(--color-text-secondary);
+      font-size: 14px;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      color: var(--color-text-secondary);
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+
+    .form-input {
+      width: 100%;
+      background-color: var(--bg-dark);
+      border: 1px solid var(--bg-border);
+      border-radius: 8px;
+      padding: 12px 16px;
+      color: var(--color-text-primary);
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--color-orange);
+      box-shadow: 0 0 0 2px rgba(255, 102, 0, 0.2);
+    }
+
+    .btn-login {
+      width: 100%;
+      background-color: var(--color-orange);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 14px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      margin-top: 10px;
+    }
+
+    .btn-login:hover {
+      background-color: var(--color-orange-hover);
+    }
+
+    .login-error {
+      background-color: rgba(231, 76, 60, 0.15);
+      border: 1px solid #e74c3c;
+      color: #e74c3c;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      margin-bottom: 20px;
+      display: none;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* ========================================== */
+    /* 2. MAIN ADMIN APP LAYOUT                   */
+    /* ========================================== */
+    .admin-app {
+      display: none; /* Shown dynamically after login */
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Header Nav */
+    .admin-header {
+      background-color: var(--bg-card);
+      border-bottom: 1px solid var(--bg-border);
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .admin-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-heading);
+      font-size: 18px;
+      font-weight: 700;
+      text-decoration: none;
+      color: var(--color-text-primary);
+    }
+
+    .admin-logo svg {
+      width: 28px;
+      height: 28px;
+      fill: var(--color-orange);
+    }
+
+    .admin-nav {
+      display: flex;
+      gap: 8px;
+    }
+
+    .nav-tab {
+      background: none;
+      border: none;
+      color: var(--color-text-secondary);
+      padding: 10px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-tab:hover {
+      color: var(--color-text-primary);
+      background-color: rgba(29, 43, 62, 0.4);
+    }
+
+    .nav-tab.active {
+      color: var(--color-text-primary);
+      background-color: var(--bg-border);
+    }
+
+    .user-profile-menu {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .user-email-display {
+      font-size: 13px;
+      color: var(--color-text-secondary);
+      font-weight: 500;
+    }
+
+    .btn-logout {
+      background: none;
+      border: 1px solid var(--bg-border);
+      color: var(--color-text-secondary);
+      padding: 8px 14px;
+      font-size: 13px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-logout:hover {
+      color: #e74c3c;
+      border-color: #e74c3c;
+      background-color: rgba(231, 76, 60, 0.05);
+    }
+
+    /* Main view sections */
+    .view-section {
+      display: none;
+      flex-grow: 1;
+      animation: fadeIn 0.4s ease-out;
+    }
+
+    .view-section.active {
+      display: block;
+    }
+
+    /* Dashboard Tab Container */
+    .dashboard-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 40px 30px;
+    }
+
+    .dashboard-intro {
+      margin-bottom: 35px;
+    }
+
+    .dashboard-intro h1 {
+      font-family: var(--font-heading);
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .dashboard-intro p {
+      color: var(--color-text-secondary);
+      font-size: 15px;
+    }
+
+    /* Stats Grid Cards */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+
+    .stat-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--bg-border);
+      border-radius: 12px;
+      padding: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-info h3 {
+      font-size: 13px;
+      color: var(--color-text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+
+    .stat-value {
+      font-family: var(--font-heading);
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .stat-trend {
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .stat-trend.positive {
+      color: var(--color-green);
+    }
+
+    .stat-trend.stable {
+      color: var(--color-text-secondary);
+    }
+
+    .stat-icon {
+      font-size: 28px;
+      color: rgba(255, 102, 0, 0.15);
+      background-color: rgba(255, 102, 0, 0.05);
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 102, 0, 0.1);
+    }
+
+    /* Double Layout: Charts and Settings */
+    .dashboard-layout {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+
+    @media (max-width: 1024px) {
+      .dashboard-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .dashboard-panel {
+      background-color: var(--bg-card);
+      border: 1px solid var(--bg-border);
+      border-radius: 12px;
+      padding: 30px;
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--bg-border);
+      padding-bottom: 15px;
+    }
+
+    .panel-title {
+      font-family: var(--font-heading);
+      font-size: 18px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .panel-title i {
+      color: var(--color-orange);
+    }
+
+    /* Chart visualization */
+    .chart-container {
+      position: relative;
+      height: 250px;
+      width: 100%;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      padding-top: 20px;
+      border-bottom: 2px solid var(--bg-border);
+      border-left: 2px solid var(--bg-border);
+      padding-left: 10px;
+      padding-bottom: 5px;
+    }
+
+    .chart-bar-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 12%;
+      height: 100%;
+      justify-content: flex-end;
+    }
+
+    .chart-bar {
+      width: 100%;
+      background: linear-gradient(to top, rgba(255, 102, 0, 0.4), var(--color-orange));
+      border-radius: 4px 4px 0 0;
+      animation: growHeight 1s cubic-bezier(0.17, 0.67, 0.83, 0.67) forwards;
+      transform-origin: bottom;
+      position: relative;
+    }
+
+    .chart-bar:hover {
+      filter: brightness(1.2);
+    }
+
+    .chart-tooltip {
+      position: absolute;
+      top: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: var(--bg-dark);
+      border: 1px solid var(--bg-border);
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .chart-bar:hover .chart-tooltip {
+      opacity: 1;
+    }
+
+    .chart-label {
+      margin-top: 10px;
+      font-size: 11px;
+      color: var(--color-text-secondary);
+      font-weight: 500;
+    }
+
+    /* Stats External Links List */
+    .external-analytics-links {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 25px;
+    }
+
+    .btn-analytics-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: var(--bg-dark);
+      border: 1px solid var(--bg-border);
+      border-radius: 8px;
+      padding: 16px 20px;
+      color: var(--color-text-primary);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+
+    .btn-analytics-link:hover {
+      border-color: var(--color-orange);
+      background-color: rgba(255, 102, 0, 0.03);
+      transform: translateY(-2px);
+    }
+
+    .btn-analytics-link i.fa-chevron-right {
+      color: var(--color-orange);
+      font-size: 12px;
+      transition: transform 0.2s ease;
+    }
+
+    .btn-analytics-link:hover i.fa-chevron-right {
+      transform: translateX(4px);
+    }
+
+    .btn-analytics-link-info {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .btn-analytics-link-info i.icon-left {
+      font-size: 20px;
+      width: 24px;
+      text-align: center;
+    }
+
+    .btn-analytics-link-info i.fa-stripe {
+      color: #635bff;
+    }
+
+    .btn-analytics-link-info i.fa-chart-line {
+      color: #0070f3;
+    }
+
+    .btn-analytics-link-info div span {
+      display: block;
+      font-size: 11px;
+      color: var(--color-text-secondary);
+      font-weight: 400;
+      margin-top: 2px;
+    }
+
+    /* Settings Profile Panel */
+    .settings-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .btn-settings-save {
+      background-color: var(--bg-border);
+      color: var(--color-text-primary);
+      border: 1px solid var(--bg-border);
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-settings-save:hover {
+      border-color: var(--color-orange);
+      background-color: rgba(255, 102, 0, 0.05);
+      color: var(--color-orange);
+    }
+
+    /* Toast Notification (internal page) */
+    .page-toast {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background-color: var(--bg-card);
+      border: 1px solid var(--bg-border);
+      border-left: 4px solid var(--color-orange);
+      border-radius: 8px;
+      padding: 16px 24px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 1000;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .page-toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .page-toast i {
+      color: var(--color-orange);
+      font-size: 18px;
+    }
+
+    /* CMS Tab Container */
+    .cms-container {
+      width: 100%;
+      height: calc(100vh - 75px);
+      border: none;
+      background-color: var(--bg-dark);
+    }
+
+    /* ========================================== */
+    /* ANIMATIONS                                 */
+    /* ========================================== */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes growHeight {
+      from { transform: scaleY(0); }
+      to { transform: scaleY(1); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========================================== -->
+  <!-- 1. LOGIN SCREEN CONTAINER                  -->
+  <!-- ========================================== -->
+  <div class="login-container" id="login-container">
+    <div class="login-card">
+      <div class="login-logo">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <path d="M50 15 L80 65 L60 65 L70 85 L30 85 L40 65 L20 65 Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+          <circle cx="50" cy="40" r="3" fill="currentColor"/>
+        </svg>
+        <span>Gioia Caccia & Pesca</span>
+      </div>
+      
+      <div class="login-title">Accedi all'Admin</div>
+      <div class="login-subtitle">Gestione catalogo e statistiche del negozio</div>
+
+      <div class="login-error" id="login-error">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <span id="login-error-text">Credenziali non valide. Riprova.</span>
+      </div>
+
+      <form id="login-form" onsubmit="handleLoginSubmit(event)">
+        <div class="form-group">
+          <label for="login-email">Email Amministratore</label>
+          <input type="email" id="login-email" class="form-input" placeholder="gioiacacciaepesca@gmail.com" required autocomplete="username">
+        </div>
+        <div class="form-group">
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" class="form-input" placeholder="••••••••" required autocomplete="current-password">
+        </div>
+        <button type="submit" class="btn-login">Accedi</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- 2. MAIN ADMIN APP                          -->
+  <!-- ========================================== -->
+  <div class="admin-app" id="admin-app">
+    
+    <!-- Navbar -->
+    <header class="admin-header">
+      <a href="#" class="admin-logo">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <path d="M50 15 L80 65 L60 65 L70 85 L30 85 L40 65 L20 65 Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+          <circle cx="50" cy="40" r="3" fill="currentColor"/>
+        </svg>
+        <span>GIOIA CACCIA & PESCA</span>
+      </a>
+
+      <!-- Navigation Tabs -->
+      <nav class="admin-nav">
+        <button class="nav-tab active" onclick="switchTab('dashboard-section', this)">
+          <i class="fa-solid fa-chart-pie"></i> Statistiche Negozio
+        </button>
+        <button class="nav-tab" onclick="switchTab('catalog-section', this)">
+          <i class="fa-solid fa-box-open"></i> Gestione Catalogo
+        </button>
+      </nav>
+
+      <!-- Profile & Logout -->
+      <div class="user-profile-menu">
+        <span class="user-email-display" id="user-email-display">gioiacacciaepesca@gmail.com</span>
+        <button class="btn-logout" onclick="handleLogout()">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i> Esci
+        </button>
+      </div>
+    </header>
+
+    <!-- TAB 1: DASHBOARD VIEW -->
+    <main class="view-section active" id="dashboard-section">
+      <div class="dashboard-container">
+        
+        <div class="dashboard-intro">
+          <h1>Benvenuto, Daniel</h1>
+          <p>Qui trovi una panoramica dell'andamento del tuo shop e i link veloci per gestire i pagamenti e gli accessi.</p>
+        </div>
+
+        <!-- Indicators Grid -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-info">
+              <h3>Visite Totali (Mese)</h3>
+              <div class="stat-value">1.245</div>
+              <div class="stat-trend positive">
+                <i class="fa-solid fa-arrow-trend-up"></i> +12.4% rispetto al mese scorso
+              </div>
+            </div>
+            <div class="stat-icon">
+              <i class="fa-solid fa-users" style="color: #3498db;"></i>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-info">
+              <h3>Vendite Simulate (Mese)</h3>
+              <div class="stat-value">€ 823.50</div>
+              <div class="stat-trend positive">
+                <i class="fa-solid fa-arrow-trend-up"></i> +8.2% incremento visite
+              </div>
+            </div>
+            <div class="stat-icon">
+              <i class="fa-solid fa-sack-dollar" style="color: var(--color-green);"></i>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-info">
+              <h3>Tasso di Conversione</h3>
+              <div class="stat-value">2.4%</div>
+              <div class="stat-trend stable">
+                <i class="fa-solid fa-circle"></i> Stabile rispetto a ieri
+              </div>
+            </div>
+            <div class="stat-icon">
+              <i class="fa-solid fa-percent" style="color: #9b59b6;"></i>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-info">
+              <h3>Ordini Evasi (Stima)</h3>
+              <div class="stat-value">14</div>
+              <div class="stat-trend positive">
+                <i class="fa-solid fa-circle-check"></i> 100% transazioni completate
+              </div>
+            </div>
+            <div class="stat-icon">
+              <i class="fa-solid fa-truck-ramp-box" style="color: var(--color-orange);"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Double Layout: Charts and Profiles -->
+        <div class="dashboard-layout">
+          
+          <!-- Column Left: Visits Chart & External Links -->
+          <div style="display: flex; flex-direction: column; gap: 30px;">
+            <!-- Simple SVG Sparkline / Bar chart representing dynamic metrics -->
+            <div class="dashboard-panel">
+              <div class="panel-header">
+                <div class="panel-title">
+                  <i class="fa-solid fa-chart-column"></i> Statistiche di Visita (Ultimi 7 Giorni)
+                </div>
+              </div>
+              <div class="chart-container">
+                <div class="chart-bar-wrapper">
+                  <div class="chart-bar" style="height: 45%;">
+                    <div class="chart-tooltip">Dom: 110 visite</div>
+                  </div>
+                  <span class="chart-label">Dom</span>
+                </div>
+                <div class="chart-bar-wrapper">
+                  <div class="chart-bar" style="height: 60%;">
+                    <div class="chart-tooltip">Lun: 145 visite</div>
+                  </div>
+                  <span class="chart-label">Lun</span>
+                </div>
+                <div class="chart-bar-wrapper">
+                  <div class="chart-bar" style="height: 80%;">
+                    <div class="chart-tooltip">Mar: 198 visite</div>
+                  </div>
+                  <span class="chart-label">Mar</span>
+                </div>
+                <div class="chart-bar-wrapper">
+                  <div class="chart-bar" style="height: 70%;">
+                    <div class="chart-tooltip">Mer: 172 visite</div>
+                  </div>
+                  <span class="chart-label">Mer</span>
+                </div>
+                <div class="chart-bar-wrapper">
+                  <div class="chart-bar" style="height: 55%;">
+                    <div class="chart-tooltip">Gio: 135 visite</div>
+                  </div>
+                  <span class="chart-label">Gio</span>
+                </div>
+                <div class="chart-bar-wrapper">
+                  <div class="chart-bar" style="height: 90%;">
+                    <div class="chart-tooltip">Ven: 220 visite</div>
+                  </div>
+                  <span class="chart-label">Ven</span>
+                </div>
+                <div class="chart-bar-wrapper">
+                  <div class="chart-bar" style="height: 100%;">
+                    <div class="chart-tooltip">Sab (Oggi): 265 visite</div>
+                  </div>
+                  <span class="chart-label">Sab</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- External Integrations for Real Metrics -->
+            <div class="dashboard-panel">
+              <div class="panel-header">
+                <div class="panel-title">
+                  <i class="fa-solid fa-circle-nodes"></i> Report Ufficiali e Vendite Reali
+                </div>
+              </div>
+              <p style="color: var(--color-text-secondary); font-size: 14px; margin-bottom: 15px;">
+                Il tuo e-commerce è headless. Le visite e le vendite reali avvengono in modo protetto sulle piattaforme dedicate di hosting e di pagamento. Puoi monitorarle da qui:
+              </p>
+              <div class="external-analytics-links">
+                <a href="https://dashboard.stripe.com/" target="_blank" rel="noopener noreferrer" class="btn-analytics-link">
+                  <div class="btn-analytics-link-info">
+                    <i class="fa-brands fa-stripe icon-left"></i>
+                    <div>
+                      Visualizza Statistiche di Vendita (Stripe)
+                      <span>Vedi fatturato reale, transazioni dei clienti e ordini ricevuti.</span>
+                    </div>
+                  </div>
+                  <i class="fa-solid fa-chevron-right"></i>
+                </a>
+                <a href="https://vercel.com/dashboard" target="_blank" rel="noopener noreferrer" class="btn-analytics-link">
+                  <div class="btn-analytics-link-info">
+                    <i class="fa-solid fa-chart-line icon-left"></i>
+                    <div>
+                      Monitora i Visitatori sul Sito (Vercel Analytics)
+                      <span>Vedi quanti utenti visitano la landing page, da dove provengono e quali dispositivi usano.</span>
+                    </div>
+                  </div>
+                  <i class="fa-solid fa-chevron-right"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Column Right: Account Management / Password Change -->
+          <div class="dashboard-panel">
+            <div class="panel-header">
+              <div class="panel-title">
+                <i class="fa-solid fa-key"></i> Modifica Password
+              </div>
+            </div>
+            <form class="settings-form" id="password-change-form" onsubmit="handlePasswordChange(event)">
+              <div class="form-group" style="margin-bottom: 12px;">
+                <label for="settings-email">Email Utente</label>
+                <input type="email" id="settings-email" class="form-input" value="gioiacacciaepesca@gmail.com" readonly style="opacity: 0.6; cursor: not-allowed;">
+              </div>
+              <div class="form-group" style="margin-bottom: 12px;">
+                <label for="current-password-input">Password Corrente</label>
+                <input type="password" id="current-password-input" class="form-input" placeholder="Inserisci password corrente" required autocomplete="current-password">
+              </div>
+              <div class="form-group" style="margin-bottom: 12px;">
+                <label for="new-password-input">Nuova Password</label>
+                <input type="password" id="new-password-input" class="form-input" placeholder="Inserisci nuova password" required autocomplete="new-password">
+              </div>
+              <div class="form-group" style="margin-bottom: 16px;">
+                <label for="confirm-password-input">Conferma Nuova Password</label>
+                <input type="password" id="confirm-password-input" class="form-input" placeholder="Conferma nuova password" required autocomplete="new-password">
+              </div>
+              <button type="submit" class="btn-settings-save">
+                <i class="fa-solid fa-floppy-disk"></i> Aggiorna Password
+              </button>
+            </form>
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+
+    <!-- TAB 2: DECAP CMS CATALOG IFRAME -->
+    <div class="view-section" id="catalog-section">
+      <iframe src="cms.html" class="cms-container" id="cms-iframe"></iframe>
+    </div>
+
+  </div>
+
+  <!-- Page level Toast notification -->
+  <div class="page-toast" id="page-toast">
+    <i class="fa-solid fa-circle-check"></i>
+    <span id="page-toast-text">Password aggiornata con successo!</span>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- JAVASCRIPT APP LOGIC                       -->
+  <!-- ========================================== -->
+  <script>
+    // Initialize default password in localStorage if not set
+    if (!localStorage.getItem('adminEmail')) {
+      localStorage.setItem('adminEmail', 'gioiacacciaepesca@gmail.com');
+    }
+    if (!localStorage.getItem('adminPassword')) {
+      localStorage.setItem('adminPassword', 'Daniel');
+    }
+
+    // Checking authentication state on load
+    document.addEventListener('DOMContentLoaded', () => {
+      const isAuth = sessionStorage.getItem('adminSession') === 'active';
+      if (isAuth) {
+        showAdminApp();
+      } else {
+        showLoginGate();
+      }
+    });
+
+    function showLoginGate() {
+      document.getElementById('login-container').style.display = 'flex';
+      document.getElementById('admin-app').style.display = 'none';
+    }
+
+    function showAdminApp() {
+      document.getElementById('login-container').style.display = 'none';
+      document.getElementById('admin-app').style.display = 'flex';
+      document.getElementById('user-email-display').textContent = localStorage.getItem('adminEmail');
+    }
+
+    // Submit handler for login form
+    function handleLoginSubmit(e) {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value.trim();
+      const pass = document.getElementById('login-password').value;
+
+      const storedEmail = localStorage.getItem('adminEmail');
+      const storedPass = localStorage.getItem('adminPassword');
+
+      const loginError = document.getElementById('login-error');
+      
+      if (email === storedEmail && pass === storedPass) {
+        sessionStorage.setItem('adminSession', 'active');
+        loginError.style.display = 'none';
+        
+        // Reset login form fields
+        document.getElementById('login-email').value = '';
+        document.getElementById('login-password').value = '';
+        
+        showAdminApp();
+        showToastNotification("Accesso effettuato con successo!");
+      } else {
+        loginError.style.display = 'flex';
+        document.getElementById('login-error-text').textContent = "Email o password errati. Riprova.";
+      }
+    }
+
+    // Logout handler
+    function handleLogout() {
+      sessionStorage.removeItem('adminSession');
+      showLoginGate();
+      showToastNotification("Sessione chiusa.");
+    }
+
+    // Switch Tabs inside dashboard
+    function switchTab(sectionId, btnEl) {
+      // Deactivate all sections
+      const sections = document.querySelectorAll('.view-section');
+      sections.forEach(s => s.classList.remove('active'));
+
+      // Deactivate all tabs
+      const tabs = document.querySelectorAll('.nav-tab');
+      tabs.forEach(t => t.classList.remove('active'));
+
+      // Activate target
+      document.getElementById(sectionId).classList.add('active');
+      btnEl.classList.add('active');
+
+      // Reload iframe if we go to catalog tab to refresh state
+      if (sectionId === 'catalog-section') {
+        const iframe = document.getElementById('cms-iframe');
+        if (iframe) {
+          iframe.src = iframe.src;
+        }
+      }
+    }
+
+    // Change password handler
+    function handlePasswordChange(e) {
+      e.preventDefault();
+      const curPass = document.getElementById('current-password-input').value;
+      const newPass = document.getElementById('new-password-input').value;
+      const confPass = document.getElementById('confirm-password-input').value;
+
+      const storedPass = localStorage.getItem('adminPassword');
+
+      if (curPass !== storedPass) {
+        alert("La password corrente inserita non è corretta.");
+        return;
+      }
+
+      if (newPass !== confPass) {
+        alert("La nuova password e la password di conferma non coincidono.");
+        return;
+      }
+
+      if (newPass.length < 5) {
+        alert("La nuova password deve contenere almeno 5 caratteri.");
+        return;
+      }
+
+      // Update password in localStorage
+      localStorage.setItem('adminPassword', newPass);
+      
+      // Reset form fields
+      document.getElementById('current-password-input').value = '';
+      document.getElementById('new-password-input').value = '';
+      document.getElementById('confirm-password-input').value = '';
+
+      showToastNotification("Password aggiornata correttamente!");
+    }
+
+    // Show dynamic toast notification
+    function showToastNotification(message) {
+      const toast = document.getElementById('page-toast');
+      const text = document.getElementById('page-toast-text');
+      
+      text.textContent = message;
+      toast.classList.add('show');
+      
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3500);
+    }
+  </script>
+</body>
 </html>
